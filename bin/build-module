@@ -1,0 +1,8 @@
+# Execute this within the project directory
+set -e
+BASE=${1##*/}
+BASE=${BASE%%.*}
+echo Base is $BASE
+python3 transforms/pre-process.py $1 /projects/bases
+java -cp /projects/xsltproc XSLTransform transforms/module/module2html.xsl $1 output/${BASE}.xml
+python3 transforms/post-process.py output/${BASE}.xml 
