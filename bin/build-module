@@ -1,6 +1,4 @@
 #!/bin/bash
-# Execute this within the project directory
-set -x
 set -e
 
 function findDirectory() {
@@ -17,7 +15,6 @@ function findDirectory() {
     DIR=${it%/*}		                          # Strip off the end
     if [ "$DIR" == "$it" ]; then                  # If they're equal (no directories)
     	DIR="."			                          # Set the current directory
-
     fi
     echo $DIR
 }
@@ -53,4 +50,4 @@ BASES=/projects/bases/$STOMA
 python3 transforms/pre-process.py $1 $BASES
 java -cp $CLASSPATH\
    snac.XSLTransform $BASES $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml
-python3 transforms/post-process.py $OUTDIR/${STOMA}.xml 
+python3 transforms/post-process.py $OUTDIR/${STOMA}.xml::$OUTDIR/${STOMA}.html
