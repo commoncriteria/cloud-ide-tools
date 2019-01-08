@@ -47,7 +47,7 @@ BASES=/projects/bases/$STOMA
 # Create bases if it doesn't exist
 [ -d $BASES ] || mkdir -p $BASES
 
-python3 transforms/pre-process.py $1 $BASES
+python3 $TRANSDIR/pre-process.py $1 $BASES
 java -cp $CLASSPATH\
    snac.XSLTransform $BASES $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml
-python3 transforms/post-process.py $OUTDIR/${STOMA}.xml::$OUTDIR/${STOMA}.html
+python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml::$OUTDIR/${STOMA}.html
