@@ -43,14 +43,8 @@ TRANSDIR=$DIR/../transforms
 OUTDIR=$DIR/../output
 STOMA=${1##*/}
 STOMA=${STOMA%%.*}
-BASES=/projects/bases/$STOMA
 
-
-# Create bases if it doesn't exist
-[ -d $BASES ] || mkdir -p $BASES
-
-python3 $TRANSDIR/pre-process.py $1 $BASES
 java -cp $CLASSPATH snac.XSLTransform\
-   $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendize=on
+   $TRANSDIR/pp2html.xsl $1 $OUTDIR/${STOMA}.xml appendize=on release=off
 python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml::$OUTDIR/${STOMA}.html
-echo -e "Wrote output to:\n$OUTDIR/${STOMA}.html\n"
+echo "Output file is $OUTDIR/${STOMA}.html"

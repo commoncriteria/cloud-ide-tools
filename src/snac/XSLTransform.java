@@ -10,15 +10,19 @@ import java.net.URISyntaxException;
 
 public class XSLTransform {
     public static void main(String[] args) throws IOException, URISyntaxException, TransformerException {
+        System.out.println("Args length: " + args.length);
+
         if (args.length < 3){
             System.out.println("Usage: <xsl-file> <xml-file> <out-file> [<param1-name>=<param1-value> [<param2-name>=<param2-value>[...]]]");
             return;
         }
+
         TransformerFactory factory = TransformerFactory.newInstance();
         Source xslt = new StreamSource(new File(args[0]));
         Transformer transformer = factory.newTransformer(xslt);
         for(int aa=3; aa<args.length; aa++){
             String []nameAndVal=args[aa].split("=", 2);
+            System.out.println("Setting parameter " + nameAndVal[0] + " to " + nameAndVal[1]);
             transformer.setParameter(nameAndVal[0], nameAndVal[1]);
         }
 
