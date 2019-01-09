@@ -48,6 +48,6 @@ BASES=/projects/bases/$STOMA
 [ -d $BASES ] || mkdir -p $BASES
 
 python3 $TRANSDIR/pre-process.py $1 $BASES
-java -cp $CLASSPATH\
-   snac.XSLTransform $BASES $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml
+java -cp $CLASSPATH snac.XSLTransform\
+   $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendize=on
 python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml::$OUTDIR/${STOMA}.html
