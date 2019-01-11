@@ -1,0 +1,44 @@
+#!/bin/bash
+set -e
+
+function findDirectory() {
+    it=$1
+    #-- Is it called via the PATH
+    if which $it  1>/dev/null 2>&1 ; then         # If it's in the path
+    	it=$(which $it)                           # Get where it is 
+    fi
+    #-- Check to see if it's a symlink
+    if readlink $it >/dev/null; then              # If it's a link
+    	it=$(readlink $it)	                      # Then resolve it
+    fi
+    #-- Fix it up
+    DIR=${it%/*}		                          # Strip off the end
+    if [ "$DIR" == "$it" ]; then                  # If they're equal (no directories)
+    	DIR="."			                          # Set the current directory
+    fi
+    echo $DIR
+}
+MYDIR=$(findDirectory $0)/..
+
+if [ -r $MYDIR/config.sh ]; then
+  source $MYDIR/config.sh
+fi 
+if [ "$1" == "-q" ]; then
+   QUIET=1
+   shift
+fi
+
+if [ ! -r "$JING_JAR" ]; then
+  if [ "$QUIET" == 1 ]; then
+    echo "Could not find the Jing library at \"$JING_JAR\"" >&2
+  fi  
+  exit 1
+fi
+
+if [ $# != 2 ]; then
+   echo "Usage: [-q] <rng-file> <xml-file>" 
+   exit 0
+fi
+
+
+java -jar $JING_JAR -t "$1" "$2"

@@ -44,6 +44,8 @@ OUTDIR=$DIR/../output
 STOMA=${1##*/}
 STOMA=${STOMA%%.*}
 
+$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
+
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/pp2html.xsl $1 $OUTDIR/${STOMA}.xml appendize=on release=off
 python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
