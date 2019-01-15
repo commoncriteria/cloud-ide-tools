@@ -24,33 +24,15 @@ if [ $# != 1 ]; then
 fi
 
 MYDIR=$(findDirectory $0)/..
-CLASSPATH=$MYDIR/bld
-[ -d $CLASSPATH ] || mkdir -p $CLASSPATH
-
-CLASSFILE=$CLASSPATH/snac/XSLTransform.class 
-JAVAFILE=$MYDIR/src/snac/XSLTransform.java 
-if [ ! -r $CLASSFILE ] || [ $JAVAFILE -nt $CLASSFILE ]; then
-    javac -d $CLASSPATH $JAVAFILE
-fi
-
-DIR="${1%/*}"
-if [ ${#DIR} == 0 ]; then
-    DIR=.
-fi  
-TRANSDIR=$DIR/../transforms
-OUTDIR=$DIR/../output
-STOMA=${1##*/}
-STOMA=${STOMA%%.*}
-BASES=/projects/bases/$STOMA
-
+. $MYDIR/lib/commons.sh $1
 
 # Create bases if it doesn't exist
 [ -d $BASES ] || mkdir -p $BASES
 
 $MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
 
-python3 $TRANSDIR/pre-process.py $1 $BASES
+$PYTHON3 $TRANSDIR/pre-process.py $1 $BASES
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on
-python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
+$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
 echo -e "Wrote output to:\n$OUTDIR/${STOMA}.html\n"

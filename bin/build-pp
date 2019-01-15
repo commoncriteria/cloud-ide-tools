@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-
 function findDirectory() {
     it=$1
     #-- Is it called via the PATH
@@ -18,35 +17,24 @@ function findDirectory() {
     fi
     echo $DIR
 }
+
 if [ $# != 1 ]; then
    echo "Usage: <input-xml-file>" 
    exit 0
-fi
-
-MYDIR=$(findDirectory $0)/..
-CLASSPATH=$MYDIR/bld
-[ -d $CLASSPATH ] || mkdir -p $CLASSPATH
-
-CLASSFILE=$CLASSPATH/snac/XSLTransform.class 
-JAVAFILE=$MYDIR/src/snac/XSLTransform.java 
-if [ ! -r $CLASSFILE ] || [ $JAVAFILE -nt $CLASSFILE ]; then
-    javac -d $CLASSPATH $JAVAFILE
-else    
-    echo "Don't need to compile"
 fi
 
 DIR="${1%/*}"
 if [ ${#DIR} == 0 ]; then
     DIR=.
 fi  
-TRANSDIR=$DIR/../transforms
-OUTDIR=$DIR/../output
-STOMA=${1##*/}
-STOMA=${STOMA%%.*}
 
-$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
+
+MYDIR=$(findDirectory $0)/..
+. $MYDIR/lib/commons.sh $1
+
+$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCProtectionProfile.rng $1 || true
 
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/pp2html.xsl $1 $OUTDIR/${STOMA}.xml appendicize=on release=off
-python3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
+$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
 echo "Output file is $OUTDIR/${STOMA}.html"
