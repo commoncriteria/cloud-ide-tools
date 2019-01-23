@@ -15,6 +15,7 @@ DIR="${1%/*}"
 if [ ${#DIR} == 0 ]; then
     DIR=.
 fi
+export JING_JAR=/projects/jing-20181222/bin/jing.jar
 PYTHON3=python3
 TRANSDIR=$DIR/../transforms
 OUTDIR=$DIR/../output
