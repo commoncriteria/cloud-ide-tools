@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 function findDirectory() {
     it=$1
     #-- Is it called via the PATH
@@ -17,23 +18,23 @@ function findDirectory() {
     fi
     echo $DIR
 }
+MYDIR=$(findDirectory $0)/..
+TRANG_JAR=/projects/trang-20181222/trang.jar
 
-if [ $# != 1 ]; then
-   echo "Usage: <input-xml-file> [<rng-file> <xsl-file>]" 
-   exit 0
+if [ -r $MYDIR/config.sh ]; then
+  source $MYDIR/config.sh
+fi 
+if [ "$1" == "-q" ]; then
+   QUIET=1
+   shift
+fi
+if [ ! -r "$TRANG_JAR" ]; then
+  if [ "$QUIET" != 1 ]; then
+    echo "Could not find the Trang library at \"$TRANG_JAR\"" >&2
+  fi
+  exit 1
 fi
 
-DIR="${1%/*}"
-if [ ${#DIR} == 0 ]; then
-    DIR=.
-fi  
 
-MYDIR=$(findDirectory $0)/..
-. $MYDIR/lib/commons.sh $1
 
-$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCProtectionProfile.rng $1 || true
-
-java -cp $CLASSPATH snac.XSLTransform\
-   $TRANSDIR/pp2html.xsl $1 $OUTDIR/${STOMA}.xml appendicize=on release=off
-$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
-echo "Output file is $OUTDIR/${STOMA}.html"
+java -jar $TRANG_JAR $@

@@ -31,7 +31,7 @@ MYDIR=$(findDirectory $0)/..
 
 $MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
 
-$PYTHON3 $TRANSDIR/pre-process.py $1 $BASES
+#$PYTHON3 $TRANSDIR/pre-process.py $1 $BASES
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on
 $PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html

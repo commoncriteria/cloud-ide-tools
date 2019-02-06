@@ -27,18 +27,20 @@ if [ "$1" == "-q" ]; then
    QUIET=1
    shift
 fi
-
 if [ ! -r "$JING_JAR" ]; then
   if [ "$QUIET" == 1 ]; then
     echo "Could not find the Jing library at \"$JING_JAR\"" >&2
-  fi  
+  fi
+  echo "HERE"
   exit 1
 fi
+
 
 if [ $# != 2 ]; then
    echo "Usage: [-q] <rng-file> <xml-file>" 
    exit 0
 fi
 
-
+echo "Here"
 java -jar $JING_JAR -t "$1" "$2"
+echo "Hereaaaa"
