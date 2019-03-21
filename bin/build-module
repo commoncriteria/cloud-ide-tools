@@ -35,4 +35,12 @@ $MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on
 $PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
+
+
+java -cp $CLASSPATH snac.XSLTransform\
+   $TRANSDIR/module/module2sd.xsl $1 $OUTDIR/${STOMA}-sd.xml 
+$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}-sd.xml=$OUTDIR/${STOMA}-sd.html
+
+
+
 echo -e "Wrote output to:\n$OUTDIR/${STOMA}.html\n"
