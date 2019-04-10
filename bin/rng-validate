@@ -23,24 +23,21 @@ MYDIR=$(findDirectory $0)/..
 if [ -r $MYDIR/config.sh ]; then
   source $MYDIR/config.sh
 fi 
+
 if [ "$1" == "-q" ]; then
    QUIET=1
    shift
 fi
 if [ ! -r "$JING_JAR" ]; then
-  if [ "$QUIET" == 1 ]; then
-    echo "Could not find the Jing library at \"$JING_JAR\"" >&2
-  fi
-  echo "HERE"
+  echo "Could not find the Jing library at \"$JING_JAR\"" >&2
+  echo "Skipping validation."
   exit 1
 fi
-
 
 if [ $# != 2 ]; then
    echo "Usage: [-q] <rng-file> <xml-file>" 
    exit 0
 fi
 
-echo "Here"
 java -jar $JING_JAR -t "$1" "$2"
-echo "Hereaaaa"
+echo "Finished validating '$2' against '$1'"

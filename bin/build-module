@@ -18,27 +18,37 @@ function findDirectory() {
     fi
     echo $DIR
 }
-if [ $# != 1 ]; then
-   echo "Usage: <input-xml-file>" 
+if [ $# -lt 1 ]; then
+   echo "Usage: <input-xml-file> [<xsl-param-name1>=<xsl-param-val1> [...]]" 
    exit 0
 fi
 
+
 MYDIR=$(findDirectory $0)/..
-. $MYDIR/lib/commons.sh $1
+
+# Snag the input 
+INXML=$1
+
+# The rest are optional parameters
+shift
+
+. $MYDIR/lib/commons.sh $INXML
+
 
 # Create bases if it doesn't exist
 [ -d $BASES ] || mkdir -p $BASES
 
-$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $1 || true
 
-#$PYTHON3 $TRANSDIR/pre-process.py $1 $BASES
+$MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $INXML || true
+
+#$PYTHON3 $TRANSDIR/pre-process.py $INXML $BASES
 java -cp $CLASSPATH snac.XSLTransform\
-   $TRANSDIR/module/module2html.xsl $1 $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on
+   $TRANSDIR/module/module2html.xsl $INXML $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on $@
 $PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
 
 
 java -cp $CLASSPATH snac.XSLTransform\
-   $TRANSDIR/module/module2sd.xsl $1 $OUTDIR/${STOMA}-sd.xml 
+   $TRANSDIR/module/module2sd.xsl $INXML $OUTDIR/${STOMA}-sd.xml $@
 $PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}-sd.xml=$OUTDIR/${STOMA}-sd.html
 
 
