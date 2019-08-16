@@ -5,6 +5,7 @@ Tools to facilitate PP development on codenvy
 If you're using this to build projects with make
 Throw this (or something similar) into LocalUser.make at the project directory root.
 
+```Make
   FNL_PARM =release=final
   APP_PARM =appendicize=on
   XSL_EXE = java -cp /projects/codenvy-tools/bld snac.XSLTransform
