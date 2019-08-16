@@ -24,6 +24,13 @@ public class XSLTransform {
         }
 
         Source text = new StreamSource(new File(args[1]));
-        transformer.transform(text, new StreamResult(new File(args[2])));
+        StreamResult result;
+        if (args[2].equals("-")){
+          result=new StreamResult(System.out);
+        }
+        else{
+          result=new StreamResult(new File(args[2]));
+        }
+        transformer.transform(text, result);
     }
 }
