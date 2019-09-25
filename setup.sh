@@ -4,10 +4,10 @@ if [ "$BASH_SOURCE" = "" ] ; then
     exit 0
 fi
 
-if [ "${BASH_SOURCE}" = "${BASH_SOURCE%%/*}" ]; then
+if [ "${BASH_SOURCE}" = "${BASH_SOURCE%/*}" ]; then
     pushd .
 else
-    cd ${BASH_SOURCE%%/*}
+    pushd ${BASH_SOURCE%/*}
 fi
 
 chmod u+x bin/*
