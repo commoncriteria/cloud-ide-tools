@@ -20,6 +20,10 @@ function findDirectory() {
 }
 MYDIR=$(findDirectory $0)/..
 
+if [ -z "${JING_JAR}" ]; then
+    JING_JAR=/projects/jing-20181222/bin/jing.jar
+fi
+
 if [ -r $MYDIR/config.sh ]; then
   source $MYDIR/config.sh
 fi 
@@ -35,6 +39,7 @@ if [ ! -r "$JING_JAR" ]; then
 fi
 
 if [ $# != 2 ]; then
+
    echo "Usage: [-q] <rng-file> <xml-file>" 
    exit 0
 fi
