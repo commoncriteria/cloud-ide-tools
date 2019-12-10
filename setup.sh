@@ -20,4 +20,7 @@ popd
 for aa in /projects/*/transforms; do
     cd "$aa" && git submodule update --init --recursive && cd -
 done
+
 PS1='##\w\n\$ '
+JING_URL=https://github.com/relaxng/jing-trang/releases/download/V20181222/jing-20181222.zip
+cd /projects && wget -q -O- $JING_URL | jar -xv
