@@ -20,3 +20,4 @@ popd
 for aa in /projects/*/transforms; do
     cd "$aa" && git submodule update --init --recursive && cd -
 done
+PS1='##\w\n\$ '
