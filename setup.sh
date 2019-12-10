@@ -17,3 +17,6 @@ PATH+=:$(pwd)/bin
 javac -d bld $(find src -name '*.java')
 
 popd
+for aa in /projects/*/transforms; do
+    cd "$aa" && git submodule update --init --recursive && cd -
+done
