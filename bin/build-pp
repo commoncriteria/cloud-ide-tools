@@ -4,7 +4,7 @@ function findDirectory() {
     it=$1
     #-- Is it called via the PATH
     if which $it  1>/dev/null 2>&1 ; then         # If it's in the path
-    	it=$(which $it)                           # Get where it is 
+    	it=$(which $it)                           # Get where it is
     fi
     #-- Check to see if it's a symlink
     if readlink $it >/dev/null; then              # If it's a link
@@ -19,14 +19,14 @@ function findDirectory() {
 }
 
 if [ $# != 1 ]; then
-   echo "Usage: <input-xml-file> [<rng-file> <xsl-file>]" 
+   echo "Usage: <input-xml-file> [<rng-file> <xsl-file>]"
    exit 0
 fi
 
 DIR="${1%/*}"
 if [ ${#DIR} == 0 ]; then
     DIR=.
-fi  
+fi
 
 MYDIR=$(findDirectory $0)/..
 . $MYDIR/lib/commons.sh $1
@@ -35,5 +35,5 @@ $MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCProtectionProfile.rng $1 || true
 
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/pp2html.xsl $1 $OUTDIR/${STOMA}.xml appendicize=on release=off
-$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
+$PYTHON $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
 echo "Output file is $OUTDIR/${STOMA}.html"
