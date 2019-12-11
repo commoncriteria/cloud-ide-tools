@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+function findDirectory() {
+    it=$1
+    #-- Is it called via the PATH
+    if which $it  1>/dev/null 2>&1 ; then         # If it's in the path
+    	it=$(which $it)                           # Get where it is
+    fi
+    #-- Check to see if it's a symlink
+    if readlink $it >/dev/null; then              # If it's a link
+    	it=$(readlink $it)	                      # Then resolve it
+    fi
+    #-- Fix it up
+    DIR=${it%/*}		                          # Strip off the end
+    if [ "$DIR" == "$it" ]; then                  # If they're equal (no directories)
+    	DIR="."			                          # Set the current directory
+    fi
+    echo $DIR
+}
+
+
+MYDIR=$(findDirectory $0)/..
+. $MYDIR/lib/commons.sh $1
+
+java -cp $CLASSPATH snac.XSLTransform "$@"
