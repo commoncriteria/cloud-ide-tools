@@ -5,7 +5,7 @@ function findDirectory() {
     it=$1
     #-- Is it called via the PATH
     if which $it  1>/dev/null 2>&1 ; then         # If it's in the path
-    	it=$(which $it)                           # Get where it is 
+    	it=$(which $it)                           # Get where it is
     fi
     #-- Check to see if it's a symlink
     if readlink $it >/dev/null; then              # If it's a link
@@ -19,14 +19,14 @@ function findDirectory() {
     echo $DIR
 }
 if [ $# -lt 1 ]; then
-   echo "Usage: <input-xml-file> [<xsl-param-name1>=<xsl-param-val1> [...]]" 
+   echo "Usage: <input-xml-file> [<xsl-param-name1>=<xsl-param-val1> [...]]"
    exit 0
 fi
 
 
 MYDIR=$(findDirectory $0)/..
 
-# Snag the input 
+# Snag the input
 INXML=$1
 
 # The rest are optional parameters
@@ -41,15 +41,15 @@ shift
 
 $MYDIR/bin/rng-validate -q $TRANSDIR/schemas/CCModule.rng $INXML || true
 
-#$PYTHON3 $TRANSDIR/pre-process.py $INXML $BASES
+#$PYTHON $TRANSDIR/pre-process.py $INXML $BASES
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/module/module2html.xsl $INXML $OUTDIR/${STOMA}.xml basesdir=$BASES appendicize=on $@
-$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
+$PYTHON $TRANSDIR/post-process.py $OUTDIR/${STOMA}.xml=$OUTDIR/${STOMA}.html
 
 
 java -cp $CLASSPATH snac.XSLTransform\
    $TRANSDIR/module/module2sd.xsl $INXML $OUTDIR/${STOMA}-sd.xml $@
-$PYTHON3 $TRANSDIR/post-process.py $OUTDIR/${STOMA}-sd.xml=$OUTDIR/${STOMA}-sd.html
+$PYTHON $TRANSDIR/post-process.py $OUTDIR/${STOMA}-sd.xml=$OUTDIR/${STOMA}-sd.html
 
 
 
