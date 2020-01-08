@@ -4,6 +4,13 @@ if [ "$BASH_SOURCE" = "" ] ; then
     exit 0
 fi
 
+if [ "$HOSTNAME" == "goorm" ]; then
+    echo "Detected goormide"
+    MYDIR=/workspace
+else
+    MYDIR=/projects
+fi
+
 if [ "${BASH_SOURCE}" = "${BASH_SOURCE%/*}" ]; then
     pushd .
 else
@@ -16,11 +23,11 @@ PATH+=:$(pwd)/bin
 [ -d bld ] || mkdir bld
 javac -d bld $(find src -name '*.java')
 
-popd
-for aa in /projects/*/transforms; do
+for aa in $MYDIR/*/transforms; do
     cd "$aa" && git submodule update --init --recursive && cd -
 done
 
 PS1='##\w\n\$ '
 JING_URL=https://github.com/relaxng/jing-trang/releases/download/V20181222/jing-20181222.zip
-cd /projects && wget -q -O- $JING_URL | jar -xv
+cd $MYDIR && wget -q -O- $JING_URL | jar -xv
+popd
