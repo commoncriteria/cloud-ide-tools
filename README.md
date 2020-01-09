@@ -1,5 +1,10 @@
-# codenvy-tools
-Tools to facilitate PP development on codenvy
+# Cloud IDE Tools
+Tools to facilitate PP development on [Cloud IDEs](https://en.wikipedia.org/wiki/Online_integrated_development_environment).
+Cloud IDEs that have been used are
+* [codenvy](https://codenvy.com)
+* [goorm](https://ide.goorm.io)
+
+Any mention of these products should _not_ be interpreted as an endorsement.
 
 # Makefiles
 If you're using this to build projects with make
