@@ -30,4 +30,21 @@ done
 PS1='##\w\n\$ '
 JING_URL=https://github.com/relaxng/jing-trang/releases/download/V20181222/jing-20181222.zip
 cd $MYDIR && wget -q -O- $JING_URL | jar -xv
+
+export LANG=C
+
+function git-clone(){
+  if [ $# == 0 ]; then
+    echo "Usage: git-clone <cc-project>"
+    return 0
+  fi
+  if [ -r ~/.ssh/id_rsa ]; then
+    git clone --recursive git@github.com:commoncriteria/$1
+  else
+    git clone --recursive https://github.com/commoncriteria/$1
+  fi
+}     
+
+
+
 popd
