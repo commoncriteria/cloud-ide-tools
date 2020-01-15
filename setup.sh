@@ -7,6 +7,7 @@ fi
 if [ "$HOSTNAME" == "goorm" ]; then
     echo "Detected goormide"
     MYDIR=/workspace
+    export LANG=C
 else
     MYDIR=/projects
 fi
@@ -29,9 +30,9 @@ done
 
 PS1='##\w\n\$ '
 JING_URL=https://github.com/relaxng/jing-trang/releases/download/V20181222/jing-20181222.zip
-cd $MYDIR && wget -q -O- $JING_URL | jar -xv
-
-export LANG=C
+if [ ! -d $MYDIR/jing-20181222 ]; then
+  cd $MYDIR && wget -q -O- $JING_URL | jar -xv
+fi
 
 function git-clone(){
   if [ $# == 0 ]; then
