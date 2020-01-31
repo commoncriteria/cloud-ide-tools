@@ -21,7 +21,12 @@ function findDirectory() {
 MYDIR=$(findDirectory $0)/..
 
 if [ -z "${JING_JAR}" ]; then
+  if [ "$HOSTNAME" == "goorm" ]; then
+    echo "Detected goormide"
+    JING_JAR=/workspace/jing-20181222/bin/jing.jar
+  else
     JING_JAR=/projects/jing-20181222/bin/jing.jar
+  fi
 fi
 
 if [ -r $MYDIR/config.sh ]; then

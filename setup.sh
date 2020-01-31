@@ -28,7 +28,7 @@ for aa in $MYDIR/*/transforms; do
     cd "$aa" && git submodule update --init --recursive && cd -
 done
 
-PS1='##\w\n\$ '
+PS1='#\[\033[01;34m\]\w\[\033[00m\]$(parse_git_branch)\n\$ '
 JING_URL=https://github.com/relaxng/jing-trang/releases/download/V20181222/jing-20181222.zip
 if [ ! -d $MYDIR/jing-20181222 ]; then
   cd $MYDIR && wget -q -O- $JING_URL | jar -xv
