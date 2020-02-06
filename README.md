@@ -17,3 +17,9 @@ Throw this (or something similar) into LocalUser.make at the project directory r
   DOXSL = $(XSL_EXE) $2 $1 $3 $4
   DOIT ?= $(XSL_EXE) $(2) $(1) - $(4) | python3 $(TRANS)/post-process.py -\=$(3) 
   JING_JAR=/projects/jing-20181222/bin/jing.jar
+
+# Functions
+A couple of bash functions were added:
+* _git-clone_ - Clones a commoncriteria prject via SSH
+* _update-transforms_ - Updates your project's transforms: Pulls transforms,  makes project, commits change with simple message, and initiates push.
+

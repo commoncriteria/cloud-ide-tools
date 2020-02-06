@@ -45,7 +45,16 @@ function git-clone(){
     git clone --recursive https://github.com/commoncriteria/$1
   fi
 }     
+function update-transforms(){
+  cd transforms &&\
+  git pull &&\
+  cd .. &&\
+  make &&\
+  git add transforms &&\
+  git commit -m "Updated transforms" &&\
+  git push
 
+}
 
 
 popd
