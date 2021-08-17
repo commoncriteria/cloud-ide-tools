@@ -19,7 +19,7 @@ function findDirectory() {
     echo $DIR
 }
 MYDIR=$(findDirectory $0)/..
-TRANG_JAR=/projects/trang-20181222/trang.jar
+TRANG_JAR=/workspace/trang-20181222/trang.jar 
 
 if [ -r $MYDIR/config.sh ]; then
   source $MYDIR/config.sh
