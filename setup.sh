@@ -44,6 +44,9 @@ function git-clone(){
   else
     git clone --recursive https://github.com/commoncriteria/$1
   fi
+  if [ -r $MYDIR/User.make ]; then
+    cp $MYDIR/User.make $1;
+  fi
 }     
 function update-transforms(){
   cd transforms &&\
@@ -55,6 +58,15 @@ function update-transforms(){
   git push
 
 }
+
+function serve-directory(){
+  if [ -d "$1" ]; then
+    cd  $1
+  fi
+  python3 -m http.server 8080
+}
+
+
 
 
 popd
