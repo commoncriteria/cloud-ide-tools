@@ -1,0 +1,23 @@
+function finish(){
+  if [ "$1" == "1" ]; then
+     echo "Failed to find transforms directory."
+  fi
+  popd
+  exit 1
+}
+
+
+
+
+pushd .
+if [[ "$PWD" = */transforms* ]]; then
+   cd ${PWD%/transforms}  
+fi
+if [ ! -d transforms ]; then
+  quit 1 
+fi
+
+sed -i.BAK 's/https:\/\/github.com\//git@github.com:/g' .git/modules/transforms/config
+cd transforms
+git push
+mv ../.git/modules/transforms/config.BAK ../.git/modules/transforms/config
