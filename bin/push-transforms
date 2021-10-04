@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function finish(){
   if [ "$1" == "1" ]; then
      echo "Failed to find transforms directory."
