@@ -21,5 +21,5 @@ fi
 
 sed -i.BAK 's/https:\/\/github.com\//git@github.com:/g' .git/modules/transforms/config
 cd transforms
-git push
+git push "$@"
 mv ../.git/modules/transforms/config.BAK ../.git/modules/transforms/config
